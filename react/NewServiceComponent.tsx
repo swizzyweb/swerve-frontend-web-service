@@ -70,6 +70,7 @@ export function NewServiceComponent(props: NewServiceComponentProps) {
   }
 
   async function installPackage(name) {
+    alertMessenger.showInfo("Installing web service...");
     requestValidator.validate({ packageName: name });
     await swerveServiceClient.install({
       packageName: name,
