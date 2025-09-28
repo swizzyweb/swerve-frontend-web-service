@@ -4,6 +4,10 @@ Sample react and tailwind based swizzy frontend web service. The sample app has 
 and a swizzy web service backend. A sample implementation of an api can be found in the
 routers/Api directory.
 
+## Documentation:
+
+https://swizzyweb.github.io/swerve-frontend-web-service/
+
 ## Web service
 
 The Swizzy web service logic can be found in the src directory.
@@ -41,3 +45,33 @@ npm run server
 ## With swerve
 
 After build you can just run `swerve` in the root directory.
+
+# Running full stack
+
+```
+npm install @swizzyweb/swerve-web-service @swizzyweb/swerve-frontend-web-service
+swerve @swizzyweb/swerve-web-service @swizzyweb/swerve-frontend-web-service
+```
+
+## Service config
+
+web-service-config.json
+
+```
+{
+  "port": 3005,
+  "services": {
+    "Frontend": {
+      "servicePath": "../swerve-frontend-web-service/"
+    },
+    "Backend": {
+      "servicePath": "../swerve-web-service/"
+    }
+  }
+}
+
+```
+
+```
+swerve --config web-service-config.json
+```

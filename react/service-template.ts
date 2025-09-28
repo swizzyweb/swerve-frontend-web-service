@@ -15,11 +15,11 @@ export interface IService {
 export type IServices = { [serviceName: string]: IService };
 
 export const ExampleServiceConfiguration: ServiceConfiguration = {
-  port: 3005,
+  port: 3006,
   logLevel: "info",
   services: {
     ExampleService: {
-      port: 3005,
+      port: 3006,
       packageName: "@swizzyweb/swizzy-frontend-template-web-service",
       logLevel: "info",
       path: "/",

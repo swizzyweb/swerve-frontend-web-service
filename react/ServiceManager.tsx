@@ -8,6 +8,7 @@ import {
   ISwerveServiceClient,
   SwerveServiceClient,
 } from "./swerve-service-client";
+import { IMessenger } from "./messenger";
 export interface ServiceManagerProps {
   services: IService[];
   setServices: (service: IService[]) => void;
@@ -17,6 +18,7 @@ export interface ServiceManagerProps {
   panelToShow: Panel;
   swerveServiceClient: ISwerveServiceClient;
   getWebServices: () => void;
+  alertMessenger: IMessenger;
 }
 
 export function ServiceManager(props: ServiceManagerProps) {
@@ -28,16 +30,18 @@ export function ServiceManager(props: ServiceManagerProps) {
     getWebServices,
     swerveServiceClient,
     panelToShow,
+    alertMessenger,
   } = props;
   return (
     <div>
-      <button onClick={getWebServices}>Get Web Services</button>
+      {false && <button onClick={getWebServices}>Get Web Services</button>}
       {panelToShow === Panel.services && (
         <div>
           <ServiceList
             removeService={removeService}
             services={services}
             swerveServiceClient={swerveServiceClient}
+            alertMessenger={alertMessenger}
           ></ServiceList>
         </div>
       )}
@@ -47,6 +51,7 @@ export function ServiceManager(props: ServiceManagerProps) {
             swerveServiceClient={swerveServiceClient}
             addNewService={addService}
             addNewServices={addServices}
+            alertMessenger={alertMessenger}
           ></NewServiceComponent>
         </div>
       )}{" "}

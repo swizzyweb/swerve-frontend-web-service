@@ -7,10 +7,11 @@ import {
   SwizzyRequestMiddleware,
   WebRouter,
 } from "@swizzyweb/swizzy-web-service";
-import { SampleFrontendWebServiceState } from "../../web-service";
+import { SampleFrontendWebServiceState } from "../../web-service.js";
 import path from "path";
 // @ts-ignore
 import express from "@swizzyweb/express";
+
 export interface PageRouterState {}
 
 export interface PageRouterProps
@@ -30,7 +31,7 @@ export class PageWebRouter extends WebRouter<
         SwizzyRequestMiddleware,
         RequestIdMiddleware,
         RequestLoggerMiddleware,
-        () => express.static(path.join(__dirname, "../../../bundle")),
+        () => express.static(path.join(import.meta.dirname, "../../../bundle")),
       ],
     });
   }

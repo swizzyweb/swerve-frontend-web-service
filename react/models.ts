@@ -1,6 +1,6 @@
 export interface IService {
   port: number;
-  serviceName: string;
+  name: string;
   serviceConfig?: any;
   packageName: string;
   instanceId: string;

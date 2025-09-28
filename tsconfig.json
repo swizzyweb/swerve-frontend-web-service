@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es2016", // Or a more recent ECMAScript version (e.g., "es2020", "esnext") based on your Node.js environment
-    "module": "commonjs", // Or "esnext" if your service uses ES modules (and you have "type": "module" in package.json)
+    "target": "esnext", // Or a more recent ECMAScript version (e.g., "es2020", "esnext") based on your Node.js environment
+    "module": "nodenext", // Or "esnext" if your service uses ES modules (and you have "type": "module" in package.json)
     "outDir": "./dist", // Output directory for compiled JavaScript files from your service code
+    "moduleResolution": "nodenext",
     //"rootDir": "./", // Specifies the root directory of input files. Relative to this tsconfig.json.
     "strict": true, // Enable all strict type-checking options for robust code
     "esModuleInterop": true, // Allows default imports from modules with no default export

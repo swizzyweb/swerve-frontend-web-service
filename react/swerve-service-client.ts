@@ -39,11 +39,15 @@ export class SwerveServiceClient implements ISwerveServiceClient {
 
     try {
       console.log(`Installing webservice ${packageName}`);
-      await fetch(
+      let response = await fetch(
         `${this.serviceUrl}${this.serviceUrl.endsWith("/") ? "" : "/"}webservice/install?serviceName=${packageName}`,
       );
+      if (response.status !== 200) {
+        throw new Error(`Error installing web service`);
+      }
       console.log(`Successful install of webservice ${packageName}`);
     } catch (e) {
+      console.log(`Error installing web service`, e);
       this.handleError(`Error installing web service`);
     }
     return {};
@@ -52,6 +56,7 @@ export class SwerveServiceClient implements ISwerveServiceClient {
   handleError(message: string) {
     // TODO: implement alert
     console.error(message);
+    throw new Error(message);
   }
 
   isValidPackageName(name: string) {

@@ -1,2 +1,6 @@
+dist
+bundle
 node_modules
 logs
+appdata
+WWMC_6_14_2025.txt

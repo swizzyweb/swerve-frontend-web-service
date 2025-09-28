@@ -7,17 +7,21 @@ import {
   ExampleServiceConfiguration,
   ServiceConfiguration,
 } from "./service-template";
+import { ShowMessage } from "./AlertBanner";
+import { AlertMessenger, IMessenger } from "./messenger";
 
 export interface NewServiceComponentProps {
   addNewService: (service: IService) => void;
   addNewServices: (service: IService[]) => void;
   swerveServiceClient: ISwerveServiceClient;
+  alertMessenger: IMessenger;
 }
 
 const DEFAULT_PORT = 3005;
 
 export function NewServiceComponent(props: NewServiceComponentProps) {
-  const { addNewServices, swerveServiceClient, addNewService } = props;
+  const { addNewServices, swerveServiceClient, addNewService, alertMessenger } =
+    props;
   const requestValidator = new SwerveRequestValidator({});
   const [port, setPort] = useState(DEFAULT_PORT);
   const [serviceName, setServiceName] = useState("");
@@ -28,6 +32,7 @@ export function NewServiceComponent(props: NewServiceComponentProps) {
   function save() {
     //valid input
     console.error(`Save not implemented`);
+    alertMessenger.showError("Save not implemented");
   }
 
   async function installFromConfig() {
@@ -47,18 +52,20 @@ export function NewServiceComponent(props: NewServiceComponentProps) {
         const response = await installPackage(name);
         installedPackages.push(name);
       } catch (e) {
-        console.log(`Failed to install package ${name}`);
+        console.log(`Failed to install package ${name}`, e);
+        //        errorMessage += "Failed to install package " + name + "\n";
+        //        showError(errorMessage);
         failedPackages.push(name);
       }
     }
     if (failedPackages.length == 0) {
-      console.log(
-        `Installed packages successfully: [${installedPackages.join(", ")}]`,
-      );
+      const message = `Installed packages successfully: [${installedPackages.join(", ")}]`;
+      alertMessenger.showSuccess(message);
+      console.log(message);
     } else {
-      console.error(
-        `Failed to install packages [${failedPackages.join(", ")}] and successfully installed packages [${installedPackages.join(", ")}]`,
-      );
+      const errorMessage = `Failed to install packages [${failedPackages.join(", ")}] and successfully installed packages [${installedPackages.join(", ")}]`;
+      console.error(errorMessage);
+      alertMessenger.showError(errorMessage);
     }
   }
 
@@ -70,31 +77,47 @@ export function NewServiceComponent(props: NewServiceComponentProps) {
   }
 
   async function install() {
-    await installPackage(packageName);
+    try {
+      await installPackage(packageName);
+      alertMessenger.showSuccess(
+        `Successfully installed package ${packageName}`,
+      );
+    } catch (e: unknown) {
+      console.error(`Error installing web service`, e);
+      alertMessenger.showError(`Failed to install package ${packageName}`);
+    }
   }
 
   async function deploy() {
-    const serviceConfiguration = JSON.parse(configuration);
+    try {
+      const serviceConfiguration = JSON.parse(configuration);
 
-    const request = serviceConfiguration; /*{
+      const request = serviceConfiguration; /*{
       port,
       logLevel: "info", // TODO: implement
       services: serviceConfiguration,
     };*/
-    requestValidator.validate(request);
-    const response = await swerveServiceClient.run(request);
-    const newServices: IService[] = [];
-    for (const instanceEntry of Object.entries(response.instances)) {
-      const nextInstance: IService = {
-        ...instanceEntry[1],
-        serviceName,
-        serviceConfig: serviceConfiguration,
-        instanceId: instanceEntry[0],
-      };
-      newServices.push(nextInstance);
-    }
+      requestValidator.validate(request);
+      const response = await swerveServiceClient.run(request);
+      const newServices: IService[] = [];
+      for (const instanceEntry of Object.entries(response.instances)) {
+        const nextInstance: IService = {
+          ...instanceEntry[1],
+          serviceName,
+          serviceConfig: serviceConfiguration,
+          instanceId: instanceEntry[0],
+        };
+        newServices.push(nextInstance);
+      }
 
-    addNewServices(newServices);
+      addNewServices(newServices);
+      alertMessenger.showSuccess(
+        `Added new services [${"\n" + newServices.map((s) => s.serviceName).join(",\n") + "\n"}]`,
+      );
+    } catch (e: unknown) {
+      console.error(`Error deploying web services`, e);
+      alertMessenger.showError("Error deploying web services");
+    }
   }
 
   return (

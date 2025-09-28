@@ -1,7 +1,9 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
+
+h2 {
+  @apply text-4xl font-extrabold dark:text-white;
+}
 
 input {
   @apply w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ease-in-out;
@@ -75,4 +77,63 @@ button.danger {
 .service-args {
   @apply resize w-full;
   field-sizing: content;
+}
+
+.alert-section {
+  @apply w-full rounded-xl border px-4 py-3 flex items-center gap-3 shadow-sm;
+}
+
+.alert-section span {
+  @apply text-sm font-medium;
+}
+
+.info .alert-section {
+  @apply bg-blue-50 border border-blue-300 text-blue-800;
+}
+
+.warn .alert-section {
+  @apply bg-yellow-50 border-yellow-300 text-yellow-800;
+}
+
+.error .alert-section {
+  @apply bg-red-50 border-red-300 text-red-800;
+}
+
+.service-list-item {
+  @apply mt-5;
+}
+
+.service-list-item label {
+  @apply font-bold;
+}
+
+.service-list-item .service-management-buttons {
+  @apply mt-5 inline-block;
+}
+
+.service-list-item .service-management-buttons button {
+  @apply sm:ml-5 sm:mr-5;
+}
+
+.service-list-item .service-management-buttons button:first-child {
+  @apply ml-0;
+}
+
+.service-list-item .service-management-buttons button:last-child {
+  @apply mr-0;
+}
+
+.service-list-item .service-management-buttons .stop-service-buttons button {
+  @apply sm:ml-5 sm:mr-5;
+}
+
+.service-list-item
+  .service-management-buttons
+  .stop-service-buttons
+  button:last-child {
+  @apply mr-0;
+}
+
+.header-logo {
+  max-width: 100px;
 }
