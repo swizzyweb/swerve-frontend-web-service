@@ -4,13 +4,17 @@ import {
   RequestLoggerMiddleware,
   StateConverter,
   StateConverterProps,
+  SwizzyMiddlewareFunction,
+  SwizzyMiddlewareProps,
   SwizzyRequestMiddleware,
   WebRouter,
+  SwizzyStatic,
 } from "@swizzyweb/swizzy-web-service";
 import { SampleFrontendWebServiceState } from "../../web-service.js";
-import path from "path";
-// @ts-ignore
-import express from "@swizzyweb/express";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export interface PageRouterState {}
 
@@ -31,7 +35,9 @@ export class PageWebRouter extends WebRouter<
         SwizzyRequestMiddleware,
         RequestIdMiddleware,
         RequestLoggerMiddleware,
-        () => express.static(path.join(import.meta.dirname, "../../../bundle")),
+        SwizzyStatic({
+          staticAssetsPath: path.join(__dirname, "../../../bundle"),
+        }),
       ],
     });
   }

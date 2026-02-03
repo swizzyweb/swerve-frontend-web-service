@@ -117,7 +117,14 @@ export function ServiceList(props: ServiceListProps) {
 
               <div>
                 <label>Port: </label>
-                <span>{service.port}</span>
+                <span>
+                  <a
+                    href={`http://${window.location.hostname}:${service.port}`}
+                    target="_blank"
+                  >
+                    {service.port}
+                  </a>
+                </span>
               </div>
 
               <div className="service-management-buttons">

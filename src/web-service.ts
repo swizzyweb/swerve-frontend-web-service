@@ -17,9 +17,9 @@ export class SampleFrontendWebService extends WebService<SampleFrontendWebServic
   constructor(props: SampleFrontendWebServiceProps) {
     super({
       ...props,
-      name: "SampleFrontendWebService",
+      name: "SwerveFrontendWebService",
       path: props.path ?? "",
-      packageName: "@swizzyweb/swizzy-frontend-template-web-service",
+      packageName: "@swizzyweb/swerve-frontend-web-service",
       routerClasses: [PageWebRouter, ApiWebRouter],
       middleware: [],
     });
