@@ -1,5 +1,5 @@
 {
-  "name": "@swizzyweb/swerve-frontend-web-service",
+  "name": "swerve-frontend-web-service",
   "version": "0.1.6",
   "description": "Swerve frontend web service",
   "main": "dist/app.js",
